@@ -1,17 +1,17 @@
 #include <iostream>
 #include <string>
-#include <unordered_set>
 #include <cassert>
 
 bool isUnique(const std::string& str) {
-    std::unordered_set<char> st;
+    unsigned bitfield = 0;
     for (char ch : str) {
-        if (st.find(ch) != st.end()) {
-            // the set contains the char
+        int index = static_cast<int>(ch);
+        if (((1 << index) & bitfield) != 0) {
+            // the char already exists
             return false;
         }
         else {
-            st.insert(ch);
+            bitfield |= (1 << index);
         }
     }
     return true;
