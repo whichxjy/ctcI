@@ -9,6 +9,10 @@
 #include <cassert>
 
 bool checkPermutation(const std::string& str1, const std::string& str2) {
+    if (str1.size() != str2.size()) {
+        return false;
+    }
+
     std::string str1_sorted = str1;
     std::sort(str1_sorted.begin(), str1_sorted.end());
 
