@@ -8,6 +8,7 @@
 
 bool isUnique(const std::string& str) {
     std::unordered_set<char> st;
+
     for (char ch : str) {
         if (st.find(ch) != st.end()) {
             // the set contains the char
@@ -17,6 +18,7 @@ bool isUnique(const std::string& str) {
             st.insert(ch);
         }
     }
+
     return true;
 }
 
