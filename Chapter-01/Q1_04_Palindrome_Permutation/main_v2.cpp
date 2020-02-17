@@ -38,10 +38,10 @@ bool isPalindromePermutation(const std::string& str) {
 int main() {
     std::vector<std::string> strs = {
         "Rats live on no evil star",
-		"A man, a plan, a canal, panama",
-		"Lleve",
-		"Tacotac",
-		"asda"
+        "A man, a plan, a canal, panama",
+        "Lleve",
+        "Tacotac",
+        "asda"
     };
     std::vector<bool> expect = { true, false, true, true, false };
 
