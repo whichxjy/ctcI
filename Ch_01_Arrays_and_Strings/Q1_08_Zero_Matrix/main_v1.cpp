@@ -1,3 +1,6 @@
+// 时间复杂度：O(N ^ 2)
+// 空间复杂度：O(N)
+
 #include <vector>
 #include <cassert>
 
