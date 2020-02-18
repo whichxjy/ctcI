@@ -1,3 +1,6 @@
+// 时间复杂度：O(N)
+// 空间复杂度：O(1)
+
 #include <string>
 #include <cassert>
 
@@ -28,5 +31,6 @@ std::string compress(const std::string& str) {
 int main() {
     assert(compress("") == "");
     assert(compress("a") == "a");
+    assert(compress("aa") == "aa");
     assert(compress("aaaaabbbbaaaabbddc") == "a5b4a4b2d2c1");
 }

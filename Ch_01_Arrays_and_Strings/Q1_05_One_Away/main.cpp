@@ -1,3 +1,6 @@
+// 时间复杂度：O(N)
+// 空间复杂度：O(1)
+
 #include <string>
 #include <cmath>
 #include <vector>
