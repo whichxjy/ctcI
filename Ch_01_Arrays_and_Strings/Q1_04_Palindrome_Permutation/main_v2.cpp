@@ -43,6 +43,7 @@ int main() {
         "Tacotac",
         "asda"
     };
+
     std::vector<bool> expect = { true, false, true, true, false };
 
     for (int i = 0; i < strs.size(); i++) {

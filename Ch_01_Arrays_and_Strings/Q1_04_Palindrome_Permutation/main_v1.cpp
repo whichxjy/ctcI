@@ -18,8 +18,8 @@ bool isPalindromePermutation(const std::string& str) {
 
     bool already_had_odd = false;
 
-    for (const auto& kv : count) {
-        if (kv.second % 2 != 0) {
+    for (const auto& [key, value] : count) {
+        if (value % 2 != 0) {
             if (already_had_odd) {
                 return false;
             }
@@ -40,6 +40,7 @@ int main() {
         "Tacotac",
         "asda"
     };
+
     std::vector<bool> expect = { true, false, true, true, false };
 
     for (int i = 0; i < strs.size(); i++) {

@@ -21,8 +21,8 @@ bool checkPermutation(const std::string& str1, const std::string& str2) {
         count2[str2[i]] += 1;
     }
 
-    for (const auto& kv : count1) {
-        if (count2[kv.first] != kv.second) {
+    for (const auto& [key, value] : count1) {
+        if (count2[key] != value) {
             return false;
         }
     }
