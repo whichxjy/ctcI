@@ -24,17 +24,14 @@ struct List {
 
     List() = default;
     List(std::shared_ptr<Node<T>> head) : head(head) {}
-
-    void append(T value) {
-        if (head == nullptr) {
-            head = std::make_shared<Node<T>>(Node(value));
-        }
-        else {
+    List(std::initializer_list<T> init_list) {
+        if (init_list.size() != 0) {
+            head = std::make_shared<Node<T>>(*(init_list.begin()));
             std::shared_ptr<Node<T>> curr = head;
-            while (curr->next != nullptr) {
+            for (auto iter = init_list.begin() + 1; iter != init_list.end(); iter++) {
+                curr->next = std::make_shared<Node<T>>(*iter);
                 curr = curr->next;
             }
-            curr->next = std::make_shared<Node<T>>(value);
         }
     }
 
@@ -87,28 +84,17 @@ int main() {
         check_equal(lst, {});
     }
     {
-        List<int> lst;
-        lst.append(1);
+        List<int> lst = { 1 };
         lst.remove_dups();
         check_equal(lst, { 1 });
     }
     {
-        List<int> lst;
-        lst.append(1);
-        lst.append(2);
-        lst.append(3);
-        lst.append(2);
-        lst.append(4);
+        List<int> lst = { 1, 2, 3, 2, 4 };
         lst.remove_dups();
         check_equal(lst, { 1, 2, 3, 4 });
     }
     {
-        List<int> lst;
-        lst.append(5);
-        lst.append(5);
-        lst.append(5);
-        lst.append(5);
-        lst.append(5);
+        List<int> lst = { 5, 5, 5, 5, 5 };
         lst.remove_dups();
         check_equal(lst, { 5 });
     }
