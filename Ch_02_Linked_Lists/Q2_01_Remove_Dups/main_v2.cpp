@@ -5,7 +5,6 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
-#include <unordered_set>
 #include <cassert>
 
 template <typename T>
