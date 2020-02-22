@@ -28,7 +28,9 @@ int main() {
         { "carrot", "tarroc" },
         { "hello", "llloh" }
     };
+
     std::vector<bool> expect = { true, true, false };
+
     for (int i = 0; i < pairs.size(); i++) {
         assert(check_permutation(pairs[i][0], pairs[i][1]) == expect[i]);
     }
