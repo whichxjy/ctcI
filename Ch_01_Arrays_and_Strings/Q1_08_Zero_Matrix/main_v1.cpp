@@ -6,7 +6,7 @@
 
 using Matrix = std::vector<std::vector<int>>;
 
-void clearRow(Matrix& matrix, int row_index) {
+void reset_row(Matrix& matrix, int row_index) {
     int col = matrix[0].size();
 
     for (int i = 0; i < col; i++) {
@@ -14,7 +14,7 @@ void clearRow(Matrix& matrix, int row_index) {
     }
 }
 
-void clearCol(Matrix& matrix, int col_index) {
+void reset_col(Matrix& matrix, int col_index) {
     int row = matrix.size();
 
     for (int i = 0; i < row; i++) {
@@ -22,7 +22,7 @@ void clearCol(Matrix& matrix, int col_index) {
     }
 }
 
-void setZeros(Matrix& matrix) {
+void set_zeros(Matrix& matrix) {
     int row = matrix.size();
     int col = matrix[0].size();
 
@@ -40,13 +40,13 @@ void setZeros(Matrix& matrix) {
 
     for (int i = 0; i < row; i++) {
         if (clear_row[i]) {
-            clearRow(matrix, i);
+            reset_row(matrix, i);
         }
     }
 
     for (int i = 0; i < col; i++) {
         if (clear_col[i]) {
-            clearCol(matrix, i);
+            reset_col(matrix, i);
         }
     }
 }
@@ -68,7 +68,7 @@ int main() {
         { 0, 0, 0, 0, 0 }
     };
 
-    setZeros(matrix);
+    set_zeros(matrix);
 
     int row = matrix.size();
     int col = matrix[0].size();

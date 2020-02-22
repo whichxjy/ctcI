@@ -5,7 +5,7 @@
 #include <string>
 #include <cassert>
 
-bool isUnique(const std::string& str) {
+bool is_unique(const std::string& str) {
     unsigned bitfield = 0;
 
     for (char ch : str) {
@@ -18,12 +18,12 @@ bool isUnique(const std::string& str) {
             bitfield |= (1 << index);
         }
     }
-    
+
     return true;
 }
 
 int main() {
-    assert(isUnique("") == true);
-    assert(isUnique("abcdefg") == true);
-    assert(isUnique("abcdefgaijk") == false);
+    assert(is_unique("") == true);
+    assert(is_unique("abcdefg") == true);
+    assert(is_unique("abcdefgaijk") == false);
 }

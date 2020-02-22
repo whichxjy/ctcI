@@ -6,7 +6,7 @@
 #include <unordered_set>
 #include <cassert>
 
-bool isUnique(const std::string& str) {
+bool is_unique(const std::string& str) {
     std::unordered_set<char> st;
 
     for (char ch : str) {
@@ -23,7 +23,7 @@ bool isUnique(const std::string& str) {
 }
 
 int main() {
-    assert(isUnique("") == true);
-    assert(isUnique("abcdefg") == true);
-    assert(isUnique("abcdefgaijk") == false);
+    assert(is_unique("") == true);
+    assert(is_unique("abcdefg") == true);
+    assert(is_unique("abcdefgaijk") == false);
 }

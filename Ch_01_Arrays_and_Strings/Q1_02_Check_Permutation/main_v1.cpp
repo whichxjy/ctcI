@@ -8,7 +8,7 @@
 #include <array>
 #include <cassert>
 
-bool checkPermutation(const std::string& str1, const std::string& str2) {
+bool check_permutation(const std::string& str1, const std::string& str2) {
     if (str1.size() != str2.size()) {
         return false;
     }
@@ -30,6 +30,6 @@ int main() {
     };
     std::vector<bool> expect = { true, true, false };
     for (int i = 0; i < pairs.size(); i++) {
-        assert(checkPermutation(pairs[i][0], pairs[i][1]) == expect[i]);
+        assert(check_permutation(pairs[i][0], pairs[i][1]) == expect[i]);
     }
 }

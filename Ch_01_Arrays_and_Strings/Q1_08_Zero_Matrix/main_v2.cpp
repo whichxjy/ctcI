@@ -7,7 +7,7 @@
 
 using Matrix = std::vector<std::vector<int>>;
 
-void clearRow(Matrix& matrix, int row_index) {
+void clear_row(Matrix& matrix, int row_index) {
     int col = matrix[0].size();
 
     for (int i = 0; i < col; i++) {
@@ -15,7 +15,7 @@ void clearRow(Matrix& matrix, int row_index) {
     }
 }
 
-void clearCol(Matrix& matrix, int col_index) {
+void clear_col(Matrix& matrix, int col_index) {
     int row = matrix.size();
 
     for (int i = 0; i < row; i++) {
@@ -23,7 +23,7 @@ void clearCol(Matrix& matrix, int col_index) {
     }
 }
 
-void setZeros(Matrix& matrix) {
+void set_zeros(Matrix& matrix) {
     int row = matrix.size();
     int col = matrix[0].size();
 
@@ -60,22 +60,22 @@ void setZeros(Matrix& matrix) {
     // clear rows
     for (int i = 1; i < row; i++) {
         if (matrix[i][0] == 0) {
-            clearRow(matrix, i);
+            clear_row(matrix, i);
         }
     }
 
     // clear columns
     for (int i = 1; i < col; i++) {
         if (matrix[0][i] == 0) {
-            clearCol(matrix, i);
+            clear_col(matrix, i);
         }
     }
 
     // clear the first row
-    clearRow(matrix, 0);
+    clear_row(matrix, 0);
 
     // clear the first column
-    clearCol(matrix, 0);
+    clear_col(matrix, 0);
 }
 
 int main() {
@@ -95,7 +95,7 @@ int main() {
         { 0, 0, 0, 0, 0 }
     };
 
-    setZeros(matrix);
+    set_zeros(matrix);
 
     int row = matrix.size();
     int col = matrix[0].size();

@@ -6,7 +6,7 @@
 #include <vector>
 #include <cassert>
 
-bool isPalindromePermutation(const std::string& str) {
+bool is_palindrome_permutation(const std::string& str) {
     // 0: even
     // 1: odd
     unsigned bitfield = 0;
@@ -47,6 +47,6 @@ int main() {
     std::vector<bool> expect = { true, false, true, true, false };
 
     for (int i = 0; i < strs.size(); i++) {
-        assert(isPalindromePermutation(strs[i]) == expect[i]);
+        assert(is_palindrome_permutation(strs[i]) == expect[i]);
     }
 }

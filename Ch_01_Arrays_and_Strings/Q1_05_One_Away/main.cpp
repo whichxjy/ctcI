@@ -7,7 +7,7 @@
 #include <array>
 #include <cassert>
 
-bool oneEditInsertOrDelete(const std::string& str1, const std::string& str2) {
+bool one_edit_insert_or_delete(const std::string& str1, const std::string& str2) {
     if (std::abs(static_cast<int>(str1.size() - str2.size())) != 1) {
         return false;
     }
@@ -37,7 +37,7 @@ bool oneEditInsertOrDelete(const std::string& str1, const std::string& str2) {
     return true;
 }
 
-bool oneEditUpdate(const std::string& str1, const std::string& str2) {
+bool one_edit_update(const std::string& str1, const std::string& str2) {
     if (str1.size() != str2.size()) {
         return false;
     }
@@ -61,8 +61,8 @@ bool oneEditUpdate(const std::string& str1, const std::string& str2) {
     return true;
 }
 
-bool oneEdit(const std::string& str1, const std::string& str2) {
-    return oneEditInsertOrDelete(str1, str2) || oneEditUpdate(str1, str2);
+bool one_edit(const std::string& str1, const std::string& str2) {
+    return one_edit_insert_or_delete(str1, str2) || one_edit_update(str1, str2);
 }
 
 int main() {
@@ -94,6 +94,6 @@ int main() {
     };
 
     for (int i = 0; i < tests.size(); i++) {
-        assert(oneEdit(tests[i][0], tests[i][1]) == expect[i]);
+        assert(one_edit(tests[i][0], tests[i][1]) == expect[i]);
     }
 }
