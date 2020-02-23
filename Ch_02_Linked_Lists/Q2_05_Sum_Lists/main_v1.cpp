@@ -1,3 +1,4 @@
+// [数位反向存放]
 // 时间复杂度：O(N)
 // 空间复杂度：O(1)
 
@@ -33,12 +34,13 @@ struct List {
         }
     }
 
-    int operator+(const List& other) {
+    List operator+(const List& other) {
         std::shared_ptr<Node<int>> lhs = this->head;
         std::shared_ptr<Node<int>> rhs = other.head;
 
-        int result = 0;
-        int k = 0;
+        std::shared_ptr<Node<int>> result_head = nullptr;
+        std::shared_ptr<Node<int>> result_curr = nullptr;
+
         int carry = 0;
 
         while (lhs != nullptr || rhs != nullptr) {
@@ -59,8 +61,14 @@ struct List {
                 carry = 1;
             }
 
-            result += (sum * std::pow(10, k));
-            k += 1;
+            if (result_head == nullptr) {
+                result_head = std::make_shared<Node<int>>(sum);
+                result_curr = result_head;
+            }
+            else {
+                result_curr->next = std::make_shared<Node<int>>(sum);
+                result_curr = result_curr->next;
+            }
 
             if (lhs != nullptr) {
                 lhs = lhs->next;
@@ -71,36 +79,55 @@ struct List {
         }
 
         if (carry == 1) {
-            result += std::pow(10, k);
+            result_curr->next = std::make_shared<Node<int>>(1);
         }
 
-        return result;
+        return List(result_head);
+    }
+
+    std::vector<int> to_vector() const {
+        std::vector<int> vec;
+        std::shared_ptr<Node<int>> curr = head;
+        while (curr != nullptr) {
+            vec.push_back(curr->value);
+            curr = curr->next;
+        }
+        return vec;
     }
 };
+
+template <typename T>
+void check_equal(const std::vector<T>& lhs, const std::vector<T>& rhs) {
+    assert(std::equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+
+void check_equal(const List& lhs, const std::vector<int>& rhs) {
+    check_equal(lhs.to_vector(), rhs);
+}
 
 int main() {
     {
         List lst1 = {};
         List lst2 = { 1 };
-        int result = lst1 + lst2;
-        assert(result == 1);
+        List result = lst1 + lst2;
+        check_equal(result, { 1 });
     }
     {
         List lst1 = { 1, 2 };
         List lst2 = { 4, 5, 6 };
-        int result = lst1 + lst2;
-        assert(result == 675);
+        List result = lst1 + lst2;
+        check_equal(result, { 5, 7, 6 });
     }
     {
         List lst1 = { 7, 1, 6 };
         List lst2 = { 5, 9, 2 };
-        int result = lst1 + lst2;
-        assert(result == 912);
+        List result = lst1 + lst2;
+        check_equal(result, { 2, 1, 9 });
     }
     {
         List lst1 = { 9, 9, 9 };
         List lst2 = { 9, 9, 9 };
-        int result = lst1 + lst2;
-        assert(result == 1998);
+        List result = lst1 + lst2;
+        check_equal(result, { 8, 9, 9, 1 });
     }
 }
