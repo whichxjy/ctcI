@@ -60,16 +60,6 @@ struct List {
             return curr_count;
         }
     }
-
-    std::vector<T> to_vector() const {
-        std::vector<T> vec;
-        std::shared_ptr<Node<T>> curr = head;
-        while (curr != nullptr) {
-            vec.push_back(curr->value);
-            curr = curr->next;
-        }
-        return vec;
-    }
 };
 
 int main() {
