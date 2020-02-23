@@ -36,51 +36,54 @@ struct List {
 
     void partition(T x) {
         // store elements that smaller that x
-        std::shared_ptr<Node<T>> small_begin = nullptr;
-        std::shared_ptr<Node<T>> small_end = nullptr;
+        std::shared_ptr<Node<T>> small_head = nullptr;
+        std::shared_ptr<Node<T>> small_tail = nullptr;
          // store elements that equal or larger that x
-        std::shared_ptr<Node<T>> large_begin = nullptr;
-        std::shared_ptr<Node<T>> large_end = nullptr;
+        std::shared_ptr<Node<T>> large_head = nullptr;
+        std::shared_ptr<Node<T>> large_tail = nullptr;
 
         std::shared_ptr<Node<T>> curr = head;
 
         while (curr != nullptr) {
+            std::shared_ptr<Node<T>> next = curr->next;
+            curr->next = nullptr;
+
             if (curr->value < x) {
                 // put in the smaller list
-                if (small_begin == nullptr) {
+                if (small_head == nullptr) {
                     // init
-                    small_begin = curr;
-                    small_end = curr;
+                    small_head = curr;
+                    small_tail = curr;
                 }
                 else {
                     // append
-                    small_end->next = curr;
-                    small_end = small_end->next;
+                    small_tail->next = curr;
+                    small_tail = curr;
                 }
             }
             else {
                 // put in the larger list
-                if (large_begin == nullptr) {
-                    large_begin = curr;
-                    large_end = curr;
+                if (large_head == nullptr) {
+                    large_head = curr;
+                    large_tail = curr;
                 }
                 else {
                     // append
-                    large_end->next = curr;
-                    large_end = large_end->next;
+                    large_tail->next = curr;
+                    large_tail = curr;
                 }
             }
 
-            curr = curr->next;
+            curr = next;
         }
 
         // merge the two lists
-        if (small_begin == nullptr) {
-            head = large_begin;
+        if (small_head == nullptr) {
+            head = large_head;
         }
         else {
-            small_end->next = large_begin;
-            head = small_begin;
+            small_tail->next = large_head;
+            head = small_head;
         }
     }
 
@@ -116,8 +119,8 @@ void check_equal(const List<T>& lhs, const std::vector<T>& rhs) {
 }
 
 int main() {
-    List<int> lst = { 33, 9, 2, 3, 10, 10389, 838, 874578, 5 };
-    lst.partition(3);
+    List<int> lst = { 3, 5, 8, 5, 10, 2, 1 };
+    lst.partition(5);
     lst.display();
-    check_equal(lst, { 2, 33, 9, 3, 10, 10389, 838, 874578, 5 });
+    check_equal(lst, { 3, 2, 1, 5, 8, 5, 10 });
 }
