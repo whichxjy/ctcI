@@ -1,7 +1,8 @@
 // 时间复杂度：O(N)
-// 空间复杂度：O(N)
+// 空间复杂度：O(1)
 
 #include <memory>
+#include <stack>
 #include <cassert>
 
 template <typename T>
@@ -31,52 +32,33 @@ struct List {
         }
     }
 
-    List<T> reversed() {
-        std::shared_ptr<Node<T>> new_head = nullptr;
+    bool is_palindrome() {
+        std::shared_ptr<Node<T>> slow = head;
+        std::shared_ptr<Node<T>> fast = head;
 
-        std::shared_ptr<Node<T>> curr = head;
+        std::stack<T> stk;
 
-        while (curr != nullptr) {
-            if (new_head == nullptr) {
-                // init
-                new_head = std::make_shared<Node<T>>(curr->value);
-            }
-            else {
-                auto new_node = std::make_shared<Node<T>>(curr->value);
-                new_node->next = new_head;
-                new_head = new_node;
-            }
-
-            curr = curr->next;
+        while (fast != nullptr && fast->next != nullptr) {
+            stk.push(slow->value);
+            slow = slow->next;
+            fast = fast->next->next;
         }
 
-        return List<T>(new_head);
-    }
+        if (fast != nullptr) {
+            slow = slow->next;
+        }
 
-    bool operator==(const List& other) {
-        auto lhs = head;
-        auto rhs = other.head;
-
-        while (lhs != nullptr && rhs != nullptr) {
-            if (lhs->value != rhs->value) {
+        while (slow != nullptr) {
+            if (slow->value != stk.top()) {
                 return false;
             }
             else {
-                lhs = lhs->next;
-                rhs = rhs->next;
+                stk.pop();
+                slow = slow->next;
             }
         }
 
-        if (lhs == nullptr && rhs == nullptr) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    bool is_palindrome() {
-        return this->reversed() == *this;
+        return true;
     }
 };
 
