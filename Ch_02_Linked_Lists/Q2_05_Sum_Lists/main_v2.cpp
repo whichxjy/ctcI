@@ -1,10 +1,11 @@
-// [数位反向存放]
+// [数位正向存放]
 // 时间复杂度：O(N)
-// 空间复杂度：O(1)
+// 空间复杂度：O(N)
 
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include <stack>
 #include <cassert>
 
 template <typename T>
@@ -34,22 +35,37 @@ struct List {
     }
 
     List operator+(const List& other) {
-        std::shared_ptr<Node<int>> lhs = this->head;
-        std::shared_ptr<Node<int>> rhs = other.head;
+        std::stack<int> stk1;
+        std::stack<int> stk2;
+
+        std::shared_ptr<Node<int>> curr1 = this->head;
+        while (curr1 != nullptr) {
+            stk1.push(curr1->value);
+            curr1 = curr1->next;
+        }
+
+        std::shared_ptr<Node<int>> curr2 = other.head;
+        while (curr2 != nullptr) {
+            stk2.push(curr2->value);
+            curr2 = curr2->next;
+        }
+
 
         std::shared_ptr<Node<int>> result_head = nullptr;
-        std::shared_ptr<Node<int>> result_curr = nullptr;
 
         int carry = 0;
 
-        while (lhs != nullptr || rhs != nullptr) {
+        while (!stk1.empty() || !stk2.empty()) {
             int sum = carry;
 
-            if (lhs != nullptr) {
-                sum += lhs->value;
+            if (!stk1.empty()) {
+                sum += stk1.top();
+                stk1.pop();
             }
-            if (rhs != nullptr) {
-                sum += rhs->value;
+
+            if (!stk2.empty()) {
+                sum += stk2.top();
+                stk2.pop();
             }
 
             if (sum < 10) {
@@ -60,25 +76,15 @@ struct List {
                 carry = 1;
             }
 
-            if (result_head == nullptr) {
-                result_head = std::make_shared<Node<int>>(sum);
-                result_curr = result_head;
-            }
-            else {
-                result_curr->next = std::make_shared<Node<int>>(sum);
-                result_curr = result_curr->next;
-            }
-
-            if (lhs != nullptr) {
-                lhs = lhs->next;
-            }
-            if (rhs != nullptr) {
-                rhs = rhs->next;
-            }
+            std::shared_ptr<Node<int>> new_head = std::make_shared<Node<int>>(sum);
+            new_head->next = result_head;
+            result_head = new_head;
         }
 
         if (carry == 1) {
-            result_curr->next = std::make_shared<Node<int>>(1);
+            std::shared_ptr<Node<int>> new_head = std::make_shared<Node<int>>(1);
+            new_head->next = result_head;
+            result_head = new_head;
         }
 
         return List(result_head);
@@ -112,21 +118,21 @@ int main() {
         check_equal(result, { 1 });
     }
     {
-        List lst1 = { 1, 2 };
-        List lst2 = { 4, 5, 6 };
+        List lst1 = { 2, 1 };
+        List lst2 = { 6, 5, 4 };
         List result = lst1 + lst2;
-        check_equal(result, { 5, 7, 6 });
+        check_equal(result, { 6, 7, 5 });
     }
     {
-        List lst1 = { 7, 1, 6 };
-        List lst2 = { 5, 9, 2 };
+        List lst1 = { 6, 1, 7 };
+        List lst2 = { 2, 9, 5 };
         List result = lst1 + lst2;
-        check_equal(result, { 2, 1, 9 });
+        check_equal(result, { 9, 1, 2 });
     }
     {
         List lst1 = { 9, 9, 9 };
         List lst2 = { 9, 9, 9 };
         List result = lst1 + lst2;
-        check_equal(result, { 8, 9, 9, 1 });
+        check_equal(result, { 1, 9, 9, 8 });
     }
 }
