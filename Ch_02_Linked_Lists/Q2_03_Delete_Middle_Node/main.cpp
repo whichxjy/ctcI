@@ -1,9 +1,10 @@
 // 时间复杂度：O(N)
-// 空间复杂度：O(N)
+// 空间复杂度：O(1)
 
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <algorithm>
 #include <cassert>
 
 template <typename T>
@@ -19,8 +20,6 @@ struct Node {
 template <typename T>
 struct List {
     std::shared_ptr<Node<T>> head;
-    bool found;
-    T result;
 
     List() = default;
     List(std::shared_ptr<Node<T>> head) : head(head) {}
@@ -35,32 +34,6 @@ struct List {
         }
     }
 
-    T find_kth_to_last(int k) {
-        found = false;
-        count(head, k);
-        if (found) {
-            return result;
-        }
-        else {
-            throw std::exception();
-        }
-    }
-
-    // the number of nodes to the last
-    int count(std::shared_ptr<Node<T>> curr, int k) {
-        if (curr == nullptr) {
-            return 0;
-        }
-        else {
-            int curr_count = count(curr->next, k) + 1;
-            if (curr_count == k) {
-                found = true;
-                result = curr->value;
-            }
-            return curr_count;
-        }
-    }
-
     std::vector<T> to_vector() const {
         std::vector<T> vec;
         std::shared_ptr<Node<T>> curr = head;
@@ -72,12 +45,34 @@ struct List {
     }
 };
 
+// delete the target node
+template <typename T>
+bool delete_node(std::shared_ptr<Node<T>> target) {
+    if (target == nullptr || target->next == nullptr) {
+        return false;
+    }
+    else {
+        std::shared_ptr<Node<T>> next = target->next;
+        target->value = next->value;
+        target->next = next->next;
+        return true;
+    }
+}
+
+template <typename T>
+void check_equal(const std::vector<T>& lhs, const std::vector<T>& rhs) {
+    assert(std::equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+
+template <typename T>
+void check_equal(const List<T>& lhs, const std::vector<T>& rhs) {
+    check_equal(lhs.to_vector(), rhs);
+}
+
 int main() {
-    List<int> lst = { 1, 2, 3, 4, 5, 6 };
-    assert(lst.find_kth_to_last(1) == 6);
-    assert(lst.find_kth_to_last(2) == 5);
-    assert(lst.find_kth_to_last(3) == 4);
-    assert(lst.find_kth_to_last(4) == 3);
-    assert(lst.find_kth_to_last(5) == 2);
-    assert(lst.find_kth_to_last(6) == 1);
+    List<int> lst = { 1, 2, 3, 4, 5 ,6 };
+    std::shared_ptr<Node<int>> target = lst.head->next->next->next;
+    bool result = delete_node(target);
+    assert(result == true);
+    check_equal(lst, { 1, 2, 3, 5, 6 });
 }
