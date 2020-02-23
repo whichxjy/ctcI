@@ -1,5 +1,5 @@
 // 时间复杂度：O(N)
-// 空间复杂度：O(1)
+// 空间复杂度：O(N)
 
 #include <memory>
 #include <stack>
@@ -17,6 +17,14 @@ struct Node {
 
 template <typename T>
 struct List {
+    struct Result {
+        std::shared_ptr<Node<T>> end_node;
+        bool result;
+
+        Result(bool result, std::shared_ptr<Node<T>> end_node)
+        : result(result), end_node(end_node) {}
+    };
+
     std::shared_ptr<Node<T>> head;
 
     List() = default;
@@ -32,34 +40,44 @@ struct List {
         }
     }
 
+    int getLength() {
+        int length = 0;
+        std::shared_ptr<Node<T>> curr = head;
+
+        while (curr != nullptr) {
+            length += 1;
+            curr = curr->next;
+        }
+
+        return length;
+    }
+
     bool is_palindrome() {
-        std::shared_ptr<Node<T>> slow = head;
-        std::shared_ptr<Node<T>> fast = head;
+        Result res = is_palindrome(head, this->getLength());
+        return res.result;
+    }
 
-        std::stack<T> stk;
-
-        while (fast != nullptr && fast->next != nullptr) {
-            stk.push(slow->value);
-            slow = slow->next;
-            fast = fast->next->next;
+    Result is_palindrome(std::shared_ptr<Node<T>> curr_head, int length) {
+        if (curr_head == nullptr || length <= 0) {
+            // even number of nodes
+            return { true, curr_head };
         }
-
-        // the list has odd number of elements, so skip the middle
-        if (fast != nullptr) {
-            slow = slow->next;
+        else if (length == 1) {
+            // odd number of nodes
+            return { true, curr_head->next };
         }
+        else {
+            Result res = is_palindrome(curr_head->next, length - 2);
 
-        while (slow != nullptr) {
-            if (slow->value != stk.top()) {
-                return false;
+            if (res.result == false || res.end_node == nullptr) {
+                return res;
             }
             else {
-                stk.pop();
-                slow = slow->next;
+                res.result = (curr_head->value == res.end_node->value);
+                res.end_node = res.end_node->next;
+                return res;
             }
         }
-
-        return true;
     }
 };
 
