@@ -18,8 +18,8 @@ struct Node {
 template <typename T>
 struct List {
     struct Result {
-        std::shared_ptr<Node<T>> end_node;
         bool result;
+        std::shared_ptr<Node<T>> end_node;
 
         Result(bool result, std::shared_ptr<Node<T>> end_node)
         : result(result), end_node(end_node) {}
